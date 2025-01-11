@@ -8,21 +8,19 @@ import java.util.Map;
 public class Library {
     private List<LibraryItem> libraryItems;
     private List<User> userList;
-    private Map<String,String> borrowedItems;
-    private System Sytem;
-    private LibraryItem item;
+    private Map<String, String> borrowedItems;
 
-    public Library(){
+    public Library() {
         libraryItems = new ArrayList<>();
         borrowedItems = new HashMap<>();
         userList = new ArrayList<>();
     }
 
-    public void addItem(LibraryItem item){
+    public void addItem(LibraryItem item) {
         libraryItems.add(item);
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         userList.add(user);
     }
 
@@ -34,30 +32,36 @@ public class Library {
         return userList;
     }
 
-    public void borrowItem(String serialNumber,User user){
-        for(LibraryItem item:libraryItems){
-            if(item.getSerialNumber().equals(serialNumber)){
-                if(getBorrowedItems().containsKey(item.getSerialNumber())){
-                    System.out.println("Item "+item.getTitle()" is already borrowed !");
+    public void borrowItem(String serialNumber, User user) {
+        for (LibraryItem item : libraryItems) {
+            if (item.getSerialNumber().equals(serialNumber)) {
+                if (borrowedItems.containsKey(item.getSerialNumber())) {
+                    System.out.println("Item \"" + item.getTitle() + "\" is already borrowed!");
                     return;
                 }
-                getBorrowedItems().put(item.getSerialNumber(),user.getName());
-                item.isBorrowed=true;
-                Sytem.out.println("Item "+item.getTitle()+" is successfully borrowed by"+user.getName());
+                borrowedItems.put(item.getSerialNumber(), user.getName());
+                item.isBorrowed = true;
+                System.out.println("Item \"" + item.getTitle() + "\" is successfully borrowed by " + user.getName());
                 return;
             }
         }
-        System.out.println("Item with serial number "+serialNumber+" is not available.");
+        System.out.println("Item with serial number " + serialNumber + " is not available.");
     }
 
-    public void returnBorrowedItem(String serialNumber, User user){
-        for (LibraryItem:libraryItems){
-            if(item.getSerialNumber().equals(serialNumber)){
-                getBorrowedItems().remove(item.getSerialNumber());
+    public void returnBorrowedItem(String serialNumber, User user) {
+        for (LibraryItem item : libraryItems) {
+            if (item.getSerialNumber().equals(serialNumber)) {
+                if (!borrowedItems.containsKey(serialNumber)) {
+                    System.out.println("This item was not borrowed.");
+                    return;
+                }
+                borrowedItems.remove(item.getSerialNumber());
+                item.isBorrowed = false;
+                System.out.println("Item \"" + item.getTitle() + "\" has been successfully returned by " + user.getName());
                 return;
             }
         }
-        System.out.println("Item with serial number "+serialNumber+" is not available.");
+        System.out.println("Item with serial number " + serialNumber + " is not available.");
     }
 
     public Map<String, String> getBorrowedItems() {
